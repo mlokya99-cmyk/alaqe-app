@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  # PostgreSQL 16 (Relational database for users, chats, contacts)
+  postgres:
+    image: postgres:16-alpine
+    container_name: alaqe-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: alaqe_db
+      POSTGRES_USER: alaqe_user
+      POSTGRES_PASSWORD: alaqe_secret_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Redis (Cache, presence, TTL)
+  redis:
+    image: redis:7-alpine
+    container_name: alaqe-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # MinIO (S3-compatible Object Storage for media: images, voice, files)
+  minio:
+    image: minio/minio:latest
+    container_name: alaqe-minio
+    restart: always
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: alaqe_admin
+      MINIO_ROOT_PASSWORD: alaqe_minio_password
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:

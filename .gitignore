@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production builds
+dist/
+dist-ssr/
+build/
+
+# Local databases and uploads
+server/data/
+server/uploads/*
+!server/uploads/.gitkeep
+*.db
+*.db-wal
+*.db-shm
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Editor & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
